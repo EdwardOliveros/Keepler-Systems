@@ -5,6 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\usuario;
+use App\Models\Rol;
+use App\Http\Controllers\Controller;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
+
+
 class AuthController extends Controller
 {
 
@@ -29,6 +37,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('correo', 'password');
+
 
         if (!isset($credentials['password'])) {
             // Manejar el caso en que el campo 'password' no está presente en la solicitud

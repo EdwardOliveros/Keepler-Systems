@@ -26,17 +26,15 @@ class RegisterController extends Controller
      */
     public function create()
     {
-        $rol = Rol::all();
-        return view('auth.register.create', ['rol' => $rol]);
         
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        $request->validate([
+         $request->validate([
             'tipo_doc' => 'required',
             'num_doc' => 'required',
             'id_rol' => 'required',
@@ -48,8 +46,21 @@ class RegisterController extends Controller
             'estado' => 'required',
         ]);
 
-        Usuario::create($request->all());
-        return redirect()->route('login')->with('success', 'Usuario creado con éxito'); 
+        $usuario = new Usuario();
+        $usuario->tipo_doc = $request->input('tipo_doc');
+        $usuario->num_doc = $request->input('num_doc');
+        $usuario->id_rol = $request->input('id_rol');
+        $usuario->nombre = $request->input('nombre');
+        $usuario->apellido = $request->input('apellido');
+        $usuario->correo = $request->input('correo');
+        $usuario->contraseña = $request->input('contraseña');
+        $usuario->telefono = $request->input('telefono');
+        $usuario->estado = $request->input('estado');
+
+        $usuario->save();
+        
+        return redirect()->route('login');
+
     }
 
     /**
